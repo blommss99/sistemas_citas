@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Sistema de Gestión de Citas Médicas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f5f7;
+      text-align: center;
+      padding: 50px;
+    }
+    h1 {
+      color: #2b5b84;
+    }
+    .menu {
+      margin-top: 40px;
+    }
+    a {
+      display: inline-block;
+      background-color: #2b5b84;
+      color: white;
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 6px;
+      margin: 10px;
+      transition: 0.2s;
+    }
+    a:hover {
+      background-color: #1f3f5c;
+    }
+  </style>
+</head>
+<body>
+  <h1>🩺 Sistema de Gestión de Citas Médicas</h1>
+  <p>Bienvenido. Selecciona una opción para continuar:</p>
+
+  <div class="menu">
+    <a href="/registrar_paciente">Registrar Paciente</a>
+    <a href="/agendar_cita">Agendar Cita</a>
+    <a href="/listar_citas">Ver Citas</a>
+  </div>
+</body>
+</html>
