@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ver Citas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+  <h2>Listado de Citas</h2>
+
+  <table border="1" cellpadding="10">
+    <tr>
+      <th>Paciente</th>
+      <th>Fecha</th>
+      <th>Hora</th>
+      <th>Motivo</th>
+    </tr>
+    {% for c in citas %}
+    <tr>
+      <td>{{ c['paciente'] }}</td>
+      <td>{{ c['fecha'] }}</td>
+      <td>{{ c['hora'] }}</td>
+      <td>{{ c['motivo'] }}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <a href="/">← Volver al inicio</a>
+</body>
+</html>

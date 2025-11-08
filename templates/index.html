@@ -6,40 +6,210 @@
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
   <style>
     body {
-      font-family: Arial, sans-serif;
-      background-color: #f3f5f7;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #f3f5f7 0%, #e8ecf1 100%);
       text-align: center;
-      padding: 50px;
+      padding: 40px 20px;
+      margin: 0;
+      min-height: 100vh;
+    }
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
     }
     h1 {
       color: #2b5b84;
+      font-size: 2.5em;
+      margin-bottom: 10px;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+    .subtitle {
+      color: #5a7a9c;
+      font-size: 1.2em;
+      margin-bottom: 30px;
+    }
+    .bienvenida {
+      background: linear-gradient(135deg, #eaf1fb 0%, #d8e4f5 100%);
+      display: inline-block;
+      padding: 20px 35px;
+      border-radius: 15px;
+      font-size: 18px;
+      color: #2b5b84;
+      box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+      margin: 20px 0 40px 0;
+      border: 2px solid #c8d8eb;
+      font-weight: 500;
     }
     .menu {
-      margin-top: 40px;
+      margin-top: 30px;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 20px;
+      padding: 20px;
     }
-    a {
-      display: inline-block;
-      background-color: #2b5b84;
+    .menu-item {
+      background: linear-gradient(135deg, #2b5b84 0%, #3a6da0 100%);
       color: white;
-      padding: 12px 24px;
+      padding: 25px 20px;
       text-decoration: none;
-      border-radius: 6px;
-      margin: 10px;
-      transition: 0.2s;
+      border-radius: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(43, 91, 132, 0.3);
+      border: none;
+      cursor: pointer;
+      font-size: 16px;
+      font-weight: 600;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100px;
     }
-    a:hover {
-      background-color: #1f3f5c;
+    .menu-item:hover {
+      background: linear-gradient(135deg, #1f3f5c 0%, #2b5b84 100%);
+      transform: translateY(-5px);
+      box-shadow: 0 8px 20px rgba(43, 91, 132, 0.4);
+    }
+    .menu-icon {
+      font-size: 2em;
+      margin-bottom: 10px;
+    }
+    /* Estilos mejorados para mensajes flash */
+    .mensaje {
+      padding: 15px 25px;
+      margin: 20px auto;
+      width: 90%;
+      max-width: 600px;
+      border-radius: 10px;
+      font-weight: bold;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      animation: slideIn 0.5s ease-out;
+    }
+    .mensaje-exito {
+      background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+      color: #155724;
+      border: 2px solid #b8dfc2;
+    }
+    .mensaje-error {
+      background: linear-gradient(135deg, #f8d7da 0%, #f5c6cb 100%);
+      color: #721c24;
+      border: 2px solid #f1b0b7;
+    }
+    .mensaje-info {
+      background: linear-gradient(135deg, #d1ecf1 0%, #bee5eb 100%);
+      color: #0c5460;
+      border: 2px solid #abdde5;
+    }
+    @keyframes slideIn {
+      from {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+    .footer {
+      margin-top: 50px;
+      color: #7a8fa6;
+      font-size: 0.9em;
+    }
+    /* Responsive */
+    @media (max-width: 768px) {
+      body {
+        padding: 20px 10px;
+      }
+      h1 {
+        font-size: 2em;
+      }
+      .menu {
+        grid-template-columns: 1fr;
+        gap: 15px;
+      }
+      .menu-item {
+        padding: 20px 15px;
+        min-height: 80px;
+      }
     }
   </style>
 </head>
 <body>
-  <h1>🩺 Sistema de Gestión de Citas Médicas</h1>
-  <p>Bienvenido. Selecciona una opción para continuar:</p>
+  <div class="container">
+    <h1>🩺 Sistema de Gestión de Citas Médicas</h1>
+    <p class="subtitle">Gestión integral de pacientes y citas médicas</p>
+    
+    <div class="bienvenida">
+      👋 ¡Bienvenido al sistema! Selecciona una opción para continuar
+    </div>
 
-  <div class="menu">
-    <a href="/registrar_paciente">Registrar Paciente</a>
-    <a href="/agendar_cita">Agendar Cita</a>
-    <a href="/listar_citas">Ver Citas</a>
+    <!-- Bloque mejorado para mostrar mensajes flash -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="mensaje {% if category == 'error' %}mensaje-error{% elif category == 'info' %}mensaje-info{% else %}mensaje-exito{% endif %}">
+            {{ message }}
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <div class="menu">
+      <a href="/registrar_paciente" class="menu-item">
+        <span class="menu-icon">👤</span>
+        <span>Registrar Paciente</span>
+      </a>
+      <a href="/agendar_cita" class="menu-item">
+        <span class="menu-icon">📅</span>
+        <span>Agendar Cita</span>
+      </a>
+      <a href="/listar_citas" class="menu-item">
+        <span class="menu-icon">📋</span>
+        <span>Ver Citas</span>
+      </a>
+      <a href="/listar_pacientes" class="menu-item">
+        <span class="menu-icon">👥</span>
+        <span>Ver Pacientes</span>
+      </a>
+    </div>
+
+    <div class="footer">
+      <p>Sistema desarrollado para gestión médica eficiente</p>
+    </div>
   </div>
+
+  <script>
+    // Efectos adicionales de interactividad
+    document.addEventListener('DOMContentLoaded', function() {
+      const menuItems = document.querySelectorAll('.menu-item');
+      
+      menuItems.forEach(item => {
+        item.addEventListener('mouseenter', function() {
+          this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+        
+        item.addEventListener('mouseleave', function() {
+          this.style.transform = 'translateY(0) scale(1)';
+        });
+      });
+
+      // Auto-ocultar mensajes después de 5 segundos
+      const mensajes = document.querySelectorAll('.mensaje');
+      mensajes.forEach(mensaje => {
+        setTimeout(() => {
+          mensaje.style.opacity = '0';
+          mensaje.style.transition = 'opacity 0.5s ease';
+          setTimeout(() => {
+            if (mensaje.parentNode) {
+              mensaje.parentNode.removeChild(mensaje);
+            }
+          }, 500);
+        }, 5000);
+      });
+    });
+  </script>
 </body>
 </html>
+
+

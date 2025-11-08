@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Lista de Pacientes</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f5f7;
+      padding: 40px;
+      text-align: center;
+    }
+    table {
+      width: 80%;
+      margin: 20px auto;
+      border-collapse: collapse;
+      background-color: white;
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 12px;
+      border-bottom: 1px solid #ddd;
+      text-align: left;
+    }
+    th {
+      background-color: #2b5b84;
+      color: white;
+      text-align: center;
+    }
+    tr:hover {
+      background-color: #f9f9f9;
+    }
+    a.boton {
+      background-color: #c0392b;
+      color: white;
+      padding: 8px 16px;
+      text-decoration: none;
+      border-radius: 4px;
+      transition: 0.2s;
+      display: inline-block;
+    }
+    a.boton:hover {
+      background-color: #992d22;
+      transform: translateY(-2px);
+    }
+    .mensaje {
+      padding: 15px;
+      margin: 20px auto;
+      width: 80%;
+      border-radius: 6px;
+      font-weight: bold;
+    }
+    .mensaje-exito {
+      background-color: #d4edda;
+      color: #155724;
+      border: 1px solid #c3e6cb;
+    }
+    .mensaje-error {
+      background-color: #f8d7da;
+      color: #721c24;
+      border: 1px solid #f5c6cb;
+    }
+    .volver {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background: #2b5b84;
+      color: white;
+      text-decoration: none;
+      border-radius: 6px;
+      transition: 0.2s;
+    }
+    .volver:hover {
+      background: #1e4161;
+      transform: translateY(-2px);
+    }
+  </style>
+</head>
+<body>
+
+<h1>Lista de Pacientes</h1>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="mensaje {% if category == 'error' %}mensaje-error{% else %}mensaje-exito{% endif %}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+
+<table>
+  <thead>
+    <tr>
+      <th>Nombre</th>
+      <th>Cédula</th>
+      <th>Teléfono</th>
+      <th>Correo</th>
+      <th>Acción</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% if pacientes %}
+      {% for paciente in pacientes %}
+      <tr>
+        <td>{{ paciente.nombre }}</td>
+        <td>{{ paciente.cedula }}</td>
+        <td>{{ paciente.telefono }}</td>
+        <td>{{ paciente.correo }}</td>
+        <td style="text-align: center;">
+          <!-- ✅ USAR EL ID REAL -->
+          <a class="boton" href="/eliminar_paciente/{{ paciente.id }}">
+            Eliminar
+          </a>
+        </td>
+      </tr>
+      {% endfor %}
+    {% else %}
+      <tr>
+        <td colspan="5" style="text-align: center; padding: 20px;">
+          No hay pacientes registrados
+        </td>
+      </tr>
+    {% endif %}
+  </tbody>
+</table>
+
+<a href="/" class="volver">Volver al Inicio</a>
+
+</body>
+</html>
+
+

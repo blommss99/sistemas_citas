@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Ver Citas</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f3f5f7;
+      text-align: center;
+      padding: 50px;
+    }
+    h2 {
+      color: #2b5b84;
+    }
+    table {
+      margin: 20px auto;
+      border-collapse: collapse;
+      width: 80%;
+      background-color: white;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    th, td {
+      border: 1px solid #ccc;
+      padding: 12px;
+      text-align: center;
+    }
+    th {
+      background-color: #2b5b84;
+      color: white;
+    }
+    tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    .btn-eliminar {
+      background-color: #e74c3c;
+      color: white;
+      padding: 5px 10px;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .btn-eliminar:hover {
+      background-color: #c0392b;
+    }
+    a.volver {
+      display: inline-block;
+      margin-top: 20px;
+      text-decoration: none;
+      color: #2b5b84;
+      transition: 0.2s;
+    }
+    a.volver:hover {
+      color: #1f3f5c;
+    }
+    /* Mensajes flash */
+    .flash-messages {
+        background-color: #d4edda;
+        color: #155724;
+        border: 1px solid #c3e6cb;
+        padding: 10px;
+        margin: 10px auto;
+        width: fit-content;
+        border-radius: 5px;
+    }
+  </style>
+</head>
+<body>
+  <h2>Listado de Citas</h2>
+
+  <!-- Mostrar mensajes flash -->
+  {% with messages = get_flashed_messages() %}
+    {% if messages %}
+      <div class="flash-messages">
+        {% for message in messages %}
+          <p>{{ message }}</p>
+        {% endfor %}
+      </div>
+    {% endif %}
+  {% endwith %}
+
+  {% if citas %}
+    <table>
+      <thead>
+        <tr>
+          <th>Paciente</th>
+          <th>Fecha</th>
+          <th>Hora</th>
+          <th>Motivo</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cita in citas %}
+        <tr>
+          <td>{{ cita.paciente }}</td>
+          <td>{{ cita.fecha }}</td>
+          <td>{{ cita.hora }}</td>
+          <td>{{ cita.motivo }}</td>
+          <td>
+            <a href="{{ url_for('eliminar_cita', id=loop.index0) }}" class="btn-eliminar" onclick="return confirm('¿Deseas eliminar esta cita?');">Eliminar</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  {% else %}
+    <p>No hay citas registradas aún.</p>
+  {% endif %}
+
+  <a href="/" class="volver">← Volver al inicio</a>
+</body>
+</html>
+
+
